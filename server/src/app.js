@@ -2,6 +2,9 @@ const express = require("express");
 const cors = require("cors");
 
 const adminRoutes = require("./routes/adminRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
+const foodRoutes = require("./routes/foodRoutes");
+const tableRoutes = require("./routes/tableRoutes");
 
 const app = express();
 
@@ -10,6 +13,9 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/admin", adminRoutes);
+app.use("/api/categories", categoryRoutes);
+app.use("/api/foods", foodRoutes);
+app.use("/api/tables", tableRoutes);
 
 // Health Check API
 app.get("/api/health", (req, res) => {
