@@ -5,6 +5,7 @@ const adminRoutes = require("./routes/adminRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const foodRoutes = require("./routes/foodRoutes");
 const tableRoutes = require("./routes/tableRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/foods", foodRoutes);
 app.use("/api/tables", tableRoutes);
+app.use("/api/orders", orderRoutes);
 
 // Health Check API
 app.get("/api/health", (req, res) => {

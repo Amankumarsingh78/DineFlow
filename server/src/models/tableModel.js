@@ -74,6 +74,37 @@ const deleteTable = async (id) => {
 
   return result;
 };
+// Occupy Table
+const occupyTable = async (tableId, orderId, customerName) => {
+  const [result] = await db.execute(
+    `UPDATE restaurant_tables
+     SET
+       is_occupied = true,
+       current_order_id = ?,
+       current_customer_name = ?,
+       updated_at = CURRENT_TIMESTAMP
+     WHERE id = ?`,
+    [orderId, customerName, tableId],
+  );
+
+  return result;
+};
+
+// Free Table
+const freeTable = async (tableId) => {
+  const [result] = await db.execute(
+    `UPDATE restaurant_tables
+     SET
+       is_occupied = false,
+       current_order_id = NULL,
+       current_customer_name = NULL,
+       updated_at = CURRENT_TIMESTAMP
+     WHERE id = ?`,
+    [tableId],
+  );
+
+  return result;
+};
 
 module.exports = {
   createTable,
@@ -82,4 +113,6 @@ module.exports = {
   getTableByNumber,
   updateTable,
   deleteTable,
+  occupyTable,
+  freeTable,
 };
