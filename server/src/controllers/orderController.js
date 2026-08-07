@@ -119,9 +119,52 @@ const getActiveOrderByTableId = async (req, res) => {
     });
   }
 };
+// Complete Order
+const completeOrder = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+
+    // Check order exists
+    const order = await orderModel.getOrderById(orderId);
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    // Only ACTIVE orders can be completed
+    if (order.status !== "ACTIVE") {
+      return res.status(400).json({
+        success: false,
+        message: "Order is not active",
+      });
+    }
+
+    // Complete order
+    await orderModel.completeOrder(orderId);
+
+    // Free restaurant table
+    await tableModel.freeTable(order.table_id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Order completed successfully",
+    });
+  } catch (error) {
+    console.error("Complete Order Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
 
 module.exports = {
   createOrder,
   getOrderById,
   getActiveOrderByTableId,
+  completeOrder,
 };

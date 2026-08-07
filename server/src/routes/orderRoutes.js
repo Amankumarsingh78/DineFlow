@@ -20,6 +20,13 @@ router.get(
   orderController.getActiveOrderByTableId,
 );
 
+// Complete Order
+router.put(
+  "/:orderId/complete",
+  authenticateToken,
+  orderController.completeOrder,
+);
+
 // Get Order by ID
 router.get("/:orderId", authenticateToken, orderController.getOrderById);
 
